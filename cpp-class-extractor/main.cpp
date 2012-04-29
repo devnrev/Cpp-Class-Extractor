@@ -52,6 +52,7 @@ void printClassWithSubClasses(Modelling::ClassDefinition *classDef, short indent
         }
         output << indentChar << "|" << std::endl;
     }
+
     auto& memberFuncs = classDef->getMemberFunctions();
     if (memberFuncs.size() > 0) {
         output << indentChar << "|      Member functions:" << std::endl;
