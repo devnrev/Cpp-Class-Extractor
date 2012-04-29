@@ -77,15 +77,23 @@ int main(int argc, const char *argv[]) {
         return 1;
     }
     std::string fileName(argv[1]);
-    IO::File file(fileName, IO::FILE_READ);
+    std::unique_ptr<IO::File> filePtr;
+    try{
+        filePtr = std::make_unique<IO::File>(fileName, IO::FILE_READ);
+    }catch(IO::CouldNotAccessFileException const& e){
+        std::cout << "Could not open target binary!" << std::endl;
+        return 1;
+    }
     std::string outputFilePath = "";
     if (argv[2] != nullptr) {
         outputFilePath = argv[2];
         size_t fileNamePos = fileName.find_last_of("/\\");           
         outputFilePath.append("/").append(fileName.substr(fileNamePos + 1).append(".classes.txt"));    
     }
-    const size_t fileSize = file.getFilSize();
-    std::unique_ptr<byte_t[]> buff(file.readData(0, fileSize));
+    const size_t fileSize = filePtr->getFilSize();
+    std::unique_ptr<byte_t[]> buff(filePtr->readData(0, fileSize));
+    filePtr->close();
+
     MachO::MachoParser mp;
     if (mp.parseHeader(reinterpret_cast<address_t>(buff.get()), false)) {
         if (!mp.isArch64Bit()) {
@@ -146,33 +154,29 @@ int main(int argc, const char *argv[]) {
                 }
             }
 
-            try {
-                auto res = refSearch.constructClassGraph(reinterpret_cast<byte_t *>(startAddress + slide),
-                        reinterpret_cast<byte_t *>(endAddress + slide));
-                std::streambuf *buf;
-                std::ofstream of;
-                if (!outputFilePath.empty()) {
-                    of.open(outputFilePath);
-                    buf = of.rdbuf();
-                } else {
-                    buf = std::cout.rdbuf();
-                }
-
-                std::ostream out(buf);
-                for (auto it = std::begin(res); it != std::end(res); ++it){
-                    Modelling::ClassDefinition *classDef = it->second.get();
-                    if (classDef->getParentClasses().size() == 0) {
-                        printClassWithSubClasses(classDef, 0, out);
-                    }
-                }
-                out << std::endl << "Total classes: " << std::dec << res.size() << std::endl;
-                if (of.is_open()) {
-                    of.close();
-                }
-            } catch(MachO::ClassNotFoundException const& e) {
-                std::cout << "Class table inconsistency" << std::endl;
-                return 1;
+            auto res = refSearch.constructClassGraph(reinterpret_cast<byte_t *>(startAddress + slide),
+                    reinterpret_cast<byte_t *>(endAddress + slide));
+            std::streambuf *buf;
+            std::ofstream of;
+            if (!outputFilePath.empty()) {
+                of.open(outputFilePath);
+                buf = of.rdbuf();
+            } else {
+                buf = std::cout.rdbuf();
             }
+
+            std::ostream out(buf);
+            for (auto it = std::begin(res); it != std::end(res); ++it){
+                Modelling::ClassDefinition *classDef = it->second.get();
+                if (classDef->getParentClasses().size() == 0) {
+                    printClassWithSubClasses(classDef, 0, out);
+                }
+            }
+            out << std::endl << "Total classes: " << std::dec << res.size() << std::endl;
+            if (of.is_open()) {
+                of.close();
+            }
+
         }
     }
     return 0;

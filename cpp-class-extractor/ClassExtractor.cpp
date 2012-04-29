@@ -18,6 +18,9 @@
 #include "ClassExtractor.h"
 #include "ClassDefinition.h"
 
+#include <future>
+
+
 namespace MachO{
 
 ClassExtractor::ClassExtractor(address_t relocation) : relocation_(relocation),
@@ -41,7 +44,6 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
     address_t* lastVtableStart = reinterpret_cast<address_t*>(startAddress);
     bool assignVtableFunctions = false;
     bool findVtableBounds = false;
-    try {
     while (bytePtr <= endAddress) {
         auto elem = activeSearchTable->entries.find(*bytePtr);
         if (elem != std::end(activeSearchTable->entries)) {
@@ -81,13 +83,8 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
 //                            reinterpret_cast<address_t>(vTableEndAddress)-relocation_,
 //                            reinterpret_cast<address_t>(typeRefAddress)-relocation_);
                     auto iter = classGraph_.find(*lastVtableStart);
-                    if (iter != std::end(classGraph_)) {
-                        extractClassfunctions(iter->second.get(),lastVtableStart,vTableEndAddress);
-                    }else{
-                        throw ClassNotFoundException();
-                    }
+                    extractClassfunctions(iter->second.get(),lastVtableStart,vTableEndAddress);
                     assignVtableFunctions = false;
-
                 }
                 if (findVtableBounds){
                     assignVtableFunctions = true;
@@ -114,16 +111,7 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
     }
     if(assignVtableFunctions){
         auto iter = classGraph_.find(*lastVtableStart);
-        if (iter != std::end(classGraph_)) {
-            extractClassfunctions(iter->second.get(),lastVtableStart, reinterpret_cast<address_t*>(classGraph_.rbegin()->first+relocation_));
-        }else{
-            throw ClassNotFoundException();
-        }
-    }
-    }catch(ClassNotFoundException& e){
-        searchTables_.clear();
-        references_.clear();
-        throw;
+        extractClassfunctions(iter->second.get(),lastVtableStart, reinterpret_cast<address_t*>(classGraph_.rbegin()->first+relocation_));
     }
     searchTables_.clear();
     references_.clear();
@@ -133,10 +121,11 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
 void ClassExtractor::extractClassfunctions(Modelling::ClassDefinition *classPtr,
         address_t *startAddress,
         address_t *endAddress) {
-//    fprintf(stderr, "%s - %x - %x\n", classPtr->getName().c_str(),
-//            reinterpret_cast<address_t>(startAddress+1) - relocation_,
-//            reinterpret_cast<address_t>(endAddress) - relocation_);
+    auto classGraphEnd = std::end(classGraph_);
     for (address_t *addressPtr = startAddress+1; addressPtr < endAddress; addressPtr++) {
+        if(classGraph_.find(reinterpret_cast<address_t>(addressPtr)-relocation_) != classGraphEnd){
+            break;
+        }
         bool pureVirtualFunc = false;
         if (*addressPtr == 0) {
             if (pureVirtualReferences_.find(
