@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		776C80F814F43B54006B802D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 776C80F714F43B54006B802D /* main.cpp */; };
+		778576E914F44E4000F3B86F /* MachoParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778576E814F44E4000F3B86F /* MachoParser.cpp */; };
+		77997250153F748D007B0D57 /* ClassDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7799724F153F748D007B0D57 /* ClassDefinition.cpp */; };
+		77997254153F7CB4007B0D5A /* (null) in Sources */ = {isa = PBXBuildFile; };
+		77997254153F7CB4007B0D5D /* ClassExtractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77997254153F7CB4007B0D5C /* ClassExtractor.cpp */; };
+		77997254153F7CB4007B0D63 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77997254153F7CB4007B0D62 /* File.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		776C80F114F43B54006B802D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		772B64B9154DA2DE00DB11F6 /* ClassDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassDefinition.h; sourceTree = "<group>"; };
+		77615A6114F459A000309A31 /* pch.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pch.pch; sourceTree = "<group>"; };
+		776C80F314F43B54006B802D /* Cpp-class-extractor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Cpp-class-extractor"; sourceTree = BUILT_PRODUCTS_DIR; };
+		776C80F714F43B54006B802D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		778576E514F442E600F3B86F /* MachoParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachoParser.h; sourceTree = "<group>"; };
+		778576E814F44E4000F3B86F /* MachoParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MachoParser.cpp; sourceTree = "<group>"; };
+		778576EA14F450A200F3B86F /* MachOTypes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MachOTypes.hpp; sourceTree = "<group>"; };
+		7799724D153F5BCE007B0D57 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		7799724F153F748D007B0D57 /* ClassDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClassDefinition.cpp; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D57 /* BinaryTableSearch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinaryTableSearch.hpp; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D58 /* StdExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdExtension.h; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D5C /* ClassExtractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClassExtractor.cpp; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D5E /* ClassExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassExtractor.h; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D61 /* DualTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DualTree.hpp; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D62 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		77997254153F7CB4007B0D64 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		776C80F014F43B54006B802D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		776C80E814F43B54006B802D = {
+			isa = PBXGroup;
+			children = (
+				776C80F614F43B54006B802D /* Cpp-class-extractor */,
+				776C80F414F43B54006B802D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		776C80F414F43B54006B802D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				776C80F314F43B54006B802D /* Cpp-class-extractor */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		776C80F614F43B54006B802D /* Cpp-class-extractor */ = {
+			isa = PBXGroup;
+			children = (
+				77997254153F7CB4007B0D64 /* File.h */,
+				77997254153F7CB4007B0D62 /* File.cpp */,
+				77997254153F7CB4007B0D61 /* DualTree.hpp */,
+				77997254153F7CB4007B0D5E /* ClassExtractor.h */,
+				77997254153F7CB4007B0D5C /* ClassExtractor.cpp */,
+				77997254153F7CB4007B0D58 /* StdExtension.h */,
+				776C80F714F43B54006B802D /* main.cpp */,
+				778576E514F442E600F3B86F /* MachoParser.h */,
+				778576E814F44E4000F3B86F /* MachoParser.cpp */,
+				778576EA14F450A200F3B86F /* MachOTypes.hpp */,
+				77615A6114F459A000309A31 /* pch.pch */,
+				7799724D153F5BCE007B0D57 /* Types.h */,
+				772B64B9154DA2DE00DB11F6 /* ClassDefinition.h */,
+				7799724F153F748D007B0D57 /* ClassDefinition.cpp */,
+				77997254153F7CB4007B0D57 /* BinaryTableSearch.hpp */,
+			);
+			name = "Cpp-class-extractor";
+			path = "cpp-class-extractor";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		776C80F214F43B54006B802D /* Cpp-class-extractor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 776C80FD14F43B54006B802D /* Build configuration list for PBXNativeTarget "Cpp-class-extractor" */;
+			buildPhases = (
+				776C80EF14F43B54006B802D /* Sources */,
+				776C80F014F43B54006B802D /* Frameworks */,
+				776C80F114F43B54006B802D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Cpp-class-extractor";
+			productName = "Cpp-class-extractor";
+			productReference = 776C80F314F43B54006B802D /* Cpp-class-extractor */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		776C80EA14F43B54006B802D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 776C80ED14F43B54006B802D /* Build configuration list for PBXProject "Cpp-class-extractor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 776C80E814F43B54006B802D;
+			productRefGroup = 776C80F414F43B54006B802D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				776C80F214F43B54006B802D /* Cpp-class-extractor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		776C80EF14F43B54006B802D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				776C80F814F43B54006B802D /* main.cpp in Sources */,
+				778576E914F44E4000F3B86F /* MachoParser.cpp in Sources */,
+				77997250153F748D007B0D57 /* ClassDefinition.cpp in Sources */,
+				77997254153F7CB4007B0D5A /* (null) in Sources */,
+				77997254153F7CB4007B0D5D /* ClassExtractor.cpp in Sources */,
+				77997254153F7CB4007B0D63 /* File.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		776C80FB14F43B54006B802D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		776C80FC14F43B54006B802D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		776C80FE14F43B54006B802D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cpp-class-extractor/pch.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = (
+					"-std=c++0x",
+					"-stdlib=libc++",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-stdlib=libc++";
+				PRODUCT_NAME = "Cpp-class-extractor";
+			};
+			name = Debug;
+		};
+		776C80FF14F43B54006B802D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cpp-class-extractor/pch.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = (
+					"-std=c++0x",
+					"-stdlib=libc++",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-stdlib=libc++";
+				PRODUCT_NAME = "Cpp-class-extractor";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		776C80ED14F43B54006B802D /* Build configuration list for PBXProject "Cpp-class-extractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				776C80FB14F43B54006B802D /* Debug */,
+				776C80FC14F43B54006B802D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		776C80FD14F43B54006B802D /* Build configuration list for PBXNativeTarget "Cpp-class-extractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				776C80FE14F43B54006B802D /* Debug */,
+				776C80FF14F43B54006B802D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 776C80EA14F43B54006B802D /* Project object */;
+}
