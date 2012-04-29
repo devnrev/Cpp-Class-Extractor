@@ -20,6 +20,8 @@
 #include <mach-o/nlist.h>
 #include <string>
 #include <mach-o/reloc.h>
+#include <mach-o/fat.h>
+#include <machine/endian.h>
 
 namespace MachO{
 
@@ -33,13 +35,36 @@ MachoParser::~MachoParser() {
 
 }
 
-bool MachoParser::parseHeader(address_t data, bool runtime) {
+bool MachoParser::parseHeader(address_t data, bool runtime, bool choose64BitIfPossible) {
+    if (*reinterpret_cast<uint32_t *>(data) == htonl(FAT_MAGIC)){
+        std::cout << "Fat Binary - choose 64 Bit: " << choose64BitIfPossible << std::endl;
+        const struct fat_header* fatHeader = reinterpret_cast<const struct fat_header *>(data);
+        const uint32_t numArchs = htonl(fatHeader->nfat_arch);
+        const struct fat_arch* fatArch =  reinterpret_cast<const struct fat_arch *>(data + sizeof(struct fat_header));
+        bool foundArch = false;
+        for(uint32_t i = 0; i < numArchs; ++i){
+            if(choose64BitIfPossible && (htonl(fatArch[i].cputype) == CPU_TYPE_X86_64)){
+                data+= htonl(fatArch[i].offset);
+                arch64_ = true;
+                foundArch = true;
+                break;
+            }else if (!choose64BitIfPossible && (htonl(fatArch[i].cputype) == CPU_TYPE_I386)){
+                data+= htonl(fatArch[i].offset);
+                foundArch = true;
+                break;
+            }
+        }
+        if(!foundArch){
+            return false;
+        }
+    }
+
     const uint32_t *magic = reinterpret_cast<uint32_t *>(data);
     int numCommands = 0;
     address_t address = 0;
 
     if (*magic == MH_MAGIC) {
-        const struct mach_header *header = reinterpret_cast<struct mach_header *>(data);
+        const struct mach_header *header = reinterpret_cast<const struct mach_header *>(data);
         numCommands = header->ncmds;
         address = data + sizeof(struct mach_header);
     }

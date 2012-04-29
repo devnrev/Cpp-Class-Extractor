@@ -95,7 +95,7 @@ int main(int argc, const char *argv[]) {
     filePtr->close();
 
     MachO::MachoParser mp;
-    if (mp.parseHeader(reinterpret_cast<address_t>(buff.get()), false)) {
+    if (mp.parseHeader(reinterpret_cast<address_t>(buff.get()), false,false)) {
         if (!mp.isArch64Bit()) {
             MachO::SectionInfo sectConst;
             MachO::SectionInfo sectData;

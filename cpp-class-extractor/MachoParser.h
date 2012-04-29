@@ -35,7 +35,7 @@ public:
     MachoParser();
     ~MachoParser();
     
-    bool parseHeader(address_t data,bool runtime);
+    bool parseHeader(address_t data,bool runtime, bool choose64BitIfPossible);
     std::vector<std::shared_ptr<SymbolInfo> > getSymbolByName(std::string name, bool exact);
     std::vector<RelocationInfo> getRelocationEntries();
     SectionInfo getSectionInfo(std::string segName, std::string sectName) const;
