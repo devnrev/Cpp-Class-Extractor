@@ -20,6 +20,8 @@
 
 #include <vector>
 #include "DualTree.hpp"
+#include "Types.h"
+#include <string>
 
 namespace Modelling{
 

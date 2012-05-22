@@ -38,7 +38,7 @@ This is an early version so it will likely contain some bugs. It is planned for 
 
 Contact:
 
-Twitter, @devnrev 
+Twitter: (at) devnrev 
 
 Version:
     0.1     - 32 Bit support

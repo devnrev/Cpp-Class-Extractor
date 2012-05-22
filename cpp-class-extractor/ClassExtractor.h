@@ -24,12 +24,21 @@
 #include "DualTree.hpp"
 #include "ClassDefinition.h"
 #include <map>
+#include <mutex>
+#include "ConcurrentQueue.hpp"
+#include <condition_variable>
+
 
 class Modelling::ClassDefinition;
 
 namespace MachO{
 
 
+struct FunctionExtractionJob{
+    Modelling::ClassDefinition* classDef;
+    address_t* startAddress;
+    address_t* endAddress;
+};
 
 class ClassNotFoundException{};
 
@@ -44,11 +53,16 @@ public:
 
 private:
     void extractClassfunctions(Modelling::ClassDefinition* classPtr, address_t* startAddress,address_t* endAddress);
+    void memberFunctionRunLoop();
 
 private:
     GraphMap classGraph_;
     std::unordered_set<address_t> pureVirtualReferences_;
     address_t relocation_;
+    std::mutex mutex_;
+    bool memberThreadRun_;
+    typedef Container::Concurrent::ConcurrentQueue<FunctionExtractionJob> FunctionExtractionQueue;
+    FunctionExtractionQueue funcExtractionJobs_;
 
 
 };

@@ -18,14 +18,14 @@
 #include "ClassExtractor.h"
 #include "ClassDefinition.h"
 
-#include <future>
-
+#include <thread>
+//#define THREADED_MEMBER_FUNCS
 
 namespace MachO{
 
 ClassExtractor::ClassExtractor(address_t relocation) : relocation_(relocation),
 BinaryTableSearch() {
-
+    memberThreadRun_ = false;
 }
 
 void ClassExtractor::addClassSkeleton(Modelling::ClassDefinition&& classDef){
@@ -44,6 +44,10 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
     address_t* lastVtableStart = reinterpret_cast<address_t*>(startAddress);
     bool assignVtableFunctions = false;
     bool findVtableBounds = false;
+#ifdef THREADED_MEMBER_FUNCS
+    std::thread workerThread = std::thread(std::bind(&ClassExtractor::memberFunctionRunLoop, this));
+    memberThreadRun_ = true;
+#endif
     while (bytePtr <= endAddress) {
         auto elem = activeSearchTable->entries.find(*bytePtr);
         if (elem != std::end(activeSearchTable->entries)) {
@@ -83,7 +87,14 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
 //                            reinterpret_cast<address_t>(vTableEndAddress)-relocation_,
 //                            reinterpret_cast<address_t>(typeRefAddress)-relocation_);
                     auto iter = classGraph_.find(*lastVtableStart);
+#ifndef THREADED_MEMBER_FUNCS
                     extractClassfunctions(iter->second.get(),lastVtableStart,vTableEndAddress);
+#else
+                    funcExtractionJobs_.emplace(FunctionExtractionJob({
+                        .classDef = iter->second.get(),
+                        .startAddress = lastVtableStart ,
+                        .endAddress = vTableEndAddress}));
+#endif
                     assignVtableFunctions = false;
                 }
                 if (findVtableBounds){
@@ -113,6 +124,10 @@ ClassExtractor::GraphMap ClassExtractor::constructClassGraph(byte_t *startAddres
         auto iter = classGraph_.find(*lastVtableStart);
         extractClassfunctions(iter->second.get(),lastVtableStart, reinterpret_cast<address_t*>(classGraph_.rbegin()->first+relocation_));
     }
+#ifdef THREADED_MEMBER_FUNCS
+    memberThreadRun_ = false;
+    workerThread.join();
+#endif
     searchTables_.clear();
     references_.clear();
     return std::move(classGraph_);
@@ -150,5 +165,15 @@ void ClassExtractor::setPureVirtualReferences(std::unordered_set<address_t> && v
     pureVirtualReferences_ = std::move(virtualRefs);
 }
 
+void ClassExtractor::memberFunctionRunLoop() {
+    while(memberThreadRun_){
+        funcExtractionJobs_.waitForData();
+        if(!funcExtractionJobs_.isEmpty()){
+            auto& jobElem = funcExtractionJobs_.front();
+            extractClassfunctions(jobElem.classDef,jobElem.startAddress,jobElem.endAddress);
+            funcExtractionJobs_.pop();
+        }
+    }
+}
 
 }
